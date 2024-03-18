@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "274205406266",
+    "firebase_url": "https://localpros-91ffa-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "localpros-91ffa",
+    "storage_bucket": "localpros-91ffa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274205406266:android:2e6ada2ab3f46a36877103",
+        "android_client_info": {
+          "package_name": "com.example.localpros"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwzGYWeIYd5J9JHfXNTWpZxESVbub4hZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
