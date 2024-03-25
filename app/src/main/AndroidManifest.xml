@@ -14,7 +14,7 @@
         android:theme="@style/Theme.LocalPros"
         tools:targetApi="31">
         <activity
-            android:name=".LocalPros"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="Application"
             android:theme="@style/Theme.LocalPros">
