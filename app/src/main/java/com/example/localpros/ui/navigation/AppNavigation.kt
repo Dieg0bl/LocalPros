@@ -1,5 +1,6 @@
 package com.example.localpros.ui.navigation
 
+import RoleSelectionScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -24,7 +25,7 @@ fun AppNavigation(navController: NavHostController) {
         }
 
         composable(AppScreens.MainScreen.route) {
-            MainScreen(navController = navController)
+            RoleSelectionScreen(navController = navController)
         }
     }
 }

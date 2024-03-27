@@ -9,11 +9,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.localpros.data.model.UserPreferences
 import com.example.localpros.ui.navigation.AppScreens
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun LoginScreen(navController: NavController, onLoginSuccess: () -> Unit) {
+fun LoginScreen(
+    navController: NavController,
+    userPreferences: UserPreferences,
+    onLoginSuccess: () -> Unit
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
@@ -42,7 +47,8 @@ fun LoginScreen(navController: NavController, onLoginSuccess: () -> Unit) {
                             if (task.isSuccessful) {
                                 onLoginSuccess()
                             } else {
-                                errorMessage = task.exception?.localizedMessage ?: "Error desconocido"
+                                errorMessage =
+                                    task.exception?.localizedMessage ?: "Error desconocido"
                             }
                         }
                 } else {
