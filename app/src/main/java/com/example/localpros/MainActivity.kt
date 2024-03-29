@@ -1,5 +1,6 @@
 package com.example.localpros
 
+import AppNavigation
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,11 +11,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.localpros.ui.navigation.AppNavigation
 import com.example.localpros.ui.navigation.AppScreens
 import com.example.localpros.ui.theme.LocalProsTheme
-import com.example.localpros.ui.view.RegisterScreen
 import com.google.firebase.auth.FirebaseAuth
+import com.example.localpros.data.model.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val shouldKeepSignedIn = remember { sharedPreferences.getBoolean("keep_signed_in", false) }
                 val firebaseAuth = FirebaseAuth.getInstance()
+                val userPreferences = UserPreferences(sharedPreferences)
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -37,11 +38,10 @@ class MainActivity : ComponentActivity() {
                     if (shouldKeepSignedIn && (firebaseAuth.currentUser != null)) {
                         navController.navigate(AppScreens.MainScreen.route)
                     } else {
-                        AppNavigation(navController)
+                        AppNavigation(navController, userPreferences)
                     }
                 }
             }
         }
     }
 }
-

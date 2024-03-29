@@ -1,29 +1,34 @@
-package com.example.localpros.ui.navigation
-
-import RoleSelectionScreen
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.localpros.ui.view.*
+import com.example.localpros.data.model.UserPreferences
+import com.example.localpros.ui.navigation.AppScreens
+import com.example.localpros.ui.view.LoginScreen
+import com.example.localpros.ui.view.RegisterScreen
+import com.example.localpros.ui.view.ResetPasswordScreen
+
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun AppNavigation(navController: NavHostController, userPreferences: UserPreferences) {
     NavHost(navController = navController, startDestination = AppScreens.LoginScreen.route) {
         composable(AppScreens.LoginScreen.route) {
-            LoginScreen(navController = navController, onLoginSuccess = {
-                navController.navigate("main_screen") { popUpTo(AppScreens.LoginScreen.route) { inclusive = true } }
-            })
+            LoginScreen(navController = navController, userPreferences = userPreferences) {
+                navController.navigate(AppScreens.MainScreen.route)
+            }
         }
+
         composable(AppScreens.RegisterScreen.route) {
-            RegisterScreen(navController = navController, onRegistrationSuccess = {
-                navController.navigate("main_screen") { popUpTo(AppScreens.RegisterScreen.route) { inclusive = true } }
-            })
+            RegisterScreen(
+                navController = navController,
+                onRegistrationSuccess = {
+                    navController.navigate(AppScreens.MainScreen.route)
+                }
+            )
         }
         composable(AppScreens.ResetPasswordScreen.route) {
             ResetPasswordScreen(navController = navController)
         }
-
         composable(AppScreens.MainScreen.route) {
             RoleSelectionScreen(navController = navController)
         }
