@@ -1,69 +1,66 @@
-package com.example.localpros.ui.view
-
-
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import com.example.localpros.data.model.Candidatura
+import com.example.localpros.data.Firebase
 import com.example.localpros.data.model.Profesional
+import com.google.firebase.database.*
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreenProfesional(profesional: Profesional) {
-    val candidaturas = profesional.historialCandidaturas
+fun MainScreenProfesional(userId: String) {
+    val (profesional, setProfesional) = remember { mutableStateOf<Profesional?>(null) }
+    val (isLoading, setIsLoading) = remember { mutableStateOf(true) }
+    val (error, setError) = remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(userId) {
+        val databaseReference = Firebase.instance.getReference("profesionales/$userId")
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val profesionalResult = snapshot.getValue(Profesional::class.java)
+                setProfesional(profesionalResult)
+                setIsLoading(false)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                setError("Error al cargar los datos: ${databaseError.message}")
+                setIsLoading(false)
+            }
+        })
+    }
+
     Scaffold(
-        topBar = { TopBar() }
-    ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
-            WelcomeSection(userName = profesional.nombre)
-            ViewAvailableOffersButton()
-            MyCandidaturesList(candidaturas)
-            ManageProfileSection(profesional)
-            ReviewsSection()
-            Footer()
-        }
-    }
-}
-
-
-@Composable
-fun ViewAvailableOffersButton() {
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        onClick = { /* TODO: Navegar a la pantalla para ver ofertas disponibles */ }
+        topBar = { TopBarProfesional() }
     ) {
-        Text("Ver Ofertas Disponibles")
-    }
-}
-
-@Composable
-fun MyCandidaturesList(candidaturas: List<Candidatura>) {
-    LazyColumn {
-        items(candidaturas) { candidatura ->
-            CandidatureItem(candidatura)
+        when {
+            isLoading -> CircularProgressIndicator()
+            error != null -> Text(error, style = MaterialTheme.typography.bodyLarge)
+            profesional != null -> {
+                Text("Bienvenido, ${profesional.nombre}", style = MaterialTheme.typography.bodyLarge)
+            }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CandidatureItem(candidatura: Candidatura) {
-    Column(modifier = Modifier.padding(8.dp)) {
-        Text(text = "Candidatura para: ${candidatura.oferta.descripcion}")
-        Text(text = "Estado: ${candidatura.estado}")
-    }
+fun TopBarProfesional() {
+    TopAppBar(
+        title = { Text("Perfil Profesional") },
+        actions = {
+            IconButton(onClick = { /* TODO:ajustes */ }) {
+                Icon(Icons.Filled.Settings, "Ajustes")
+            }
+            IconButton(onClick = { /* TODO: ayuda */ }) {
+                Icon(Icons.Filled.Info, "Ayuda")
+            }
+            IconButton(onClick = { /* TODO: cerrar sesión */ }) {
+                Icon(Icons.Filled.ExitToApp, "Salir")
+            }
+        }
+    )
 }
-
-@Composable
-fun ManageProfileSection(profesional: Profesional) {
-    // TODO: Implementar lógica para gestionar el perfil y la disponibilidad del profesional
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text("Gestionar Perfil y Disponibilidad")
-    }
-}
-
-

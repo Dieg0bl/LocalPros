@@ -1,5 +1,6 @@
 package com.example.localpros.ui.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -56,6 +57,16 @@ fun RegisterScreen(navController: NavController, onRegistrationSuccess: () -> Un
         ) {
             Text("Registrar")
         }
+
+        Text(
+            text = "Volver al inicio de sesión",
+            modifier = Modifier.clickable {
+                navController.navigate("login_screen") {
+                    popUpTo("register_screen") { inclusive = true }
+                }
+            },
+            style = MaterialTheme.typography.bodySmall
+        )
 
         if (errorMessage.isNotEmpty()) {
             Text(text = errorMessage, color = Color.Red)

@@ -2,9 +2,9 @@ package com.example.localpros.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.localpros.data.model.DataState
 import com.example.localpros.data.model.Particular
 import com.example.localpros.data.model.Profesional
-import com.example.localpros.data.model.UserPreferences
 import com.example.localpros.data.model.UserRole
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,22 +19,42 @@ class UserViewModel @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase
 ) : ViewModel() {
 
-    private val _particularData = MutableStateFlow<Particular?>(null)
-    val particularData: StateFlow<Particular?> = _particularData
 
-    private val _profesionalData = MutableStateFlow<Profesional?>(null)
-    val profesionalData: StateFlow<Profesional?> = _profesionalData
+    private val _particularData = MutableStateFlow<DataState<Particular?>>(DataState.Loading)
+    val particularData: StateFlow<DataState<Particular?>> = _particularData
+
+
+    private val _profesionalData = MutableStateFlow<DataState<Profesional?>>(DataState.Loading)
+    val profesionalData: StateFlow<DataState<Profesional?>> = _profesionalData
+
 
     fun loadUserData(userId: String, userRole: UserRole) {
         viewModelScope.launch {
             when (userRole) {
                 UserRole.Particular -> {
-                    val dataSnapshot = firebaseDatabase.reference.child("particulares").child(userId).get().await()
-                    _particularData.value = dataSnapshot.getValue(Particular::class.java)
+                    _particularData.value = DataState.Loading
+                    try {
+                        val dataSnapshot =
+                            firebaseDatabase.reference.child("particulares").child(userId).get()
+                                .await()
+                        val particular = dataSnapshot.getValue(Particular::class.java)
+                        _particularData.value = DataState.Success(particular)
+                    } catch (e: Exception) {
+                        _particularData.value = DataState.Error(e)
+                    }
                 }
+
                 UserRole.Profesional -> {
-                    val dataSnapshot = firebaseDatabase.reference.child("profesionales").child(userId).get().await()
-                    _profesionalData.value = dataSnapshot.getValue(Profesional::class.java)
+                    _profesionalData.value = DataState.Loading
+                    try {
+                        val dataSnapshot =
+                            firebaseDatabase.reference.child("profesionales").child(userId).get()
+                                .await()
+                        val profesional = dataSnapshot.getValue(Profesional::class.java)
+                        _profesionalData.value = DataState.Success(profesional)
+                    } catch (e: Exception) {
+                        _profesionalData.value = DataState.Error(e)
+                    }
                 }
             }
         }

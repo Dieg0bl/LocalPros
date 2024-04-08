@@ -7,9 +7,8 @@ import javax.inject.Singleton
 @Singleton
 class UserPreferences @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
-    var keepLoggedIn: Boolean
-        get() = sharedPreferences.getBoolean("KeepLoggedIn", false)
-        set(value) = sharedPreferences.edit().putBoolean("KeepLoggedIn", value).apply()
+    val userId: String
+        get() = sharedPreferences.getString("UserId", "") ?: ""
 
     var userRole: String
         get() = sharedPreferences.getString("UserRole", UserRole.Particular.name) ?: UserRole.Particular.name

@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 val firebaseAuth = FirebaseAuth.getInstance()
                 val userPreferences = UserPreferences(sharedPreferences)
                 val userViewModel: UserViewModel =
-                    viewModel() // Inicializar UserViewModel usando Hilt
+                    viewModel()
 
                 // A surface container using the 'background' color from the theme
                 Surface(
