@@ -1,46 +1,70 @@
-import androidx.compose.runtime.*
+package com.example.localpros.ui.view
+
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.localpros.data.Firebase
 import com.example.localpros.data.model.Oferta
 import com.example.localpros.data.model.Particular
-import com.google.firebase.database.*
+import com.example.localpros.data.model.UserRole
+import com.example.localpros.ui.viewModel.UserViewModel
+import androidx.navigation.NavController
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import com.example.localpros.data.model.DataState
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreenParticular(userId: String) {
-    val (particular, setParticular) = remember { mutableStateOf<Particular?>(null) }
-    val (isLoading, setIsLoading) = remember { mutableStateOf(true) }
-    val (error, setError) = remember { mutableStateOf<String?>(null) }
+fun MainScreenParticular(
+    userId: String,
+    navController: NavController,
+    userViewModel: UserViewModel
+) {
 
-    LaunchedEffect(userId) {
-        val databaseReference = Firebase.instance.getReference("particulares/$userId")
-        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val particularResult = snapshot.getValue(Particular::class.java)
-                setParticular(particularResult)
-                setIsLoading(false)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                setError("Error al cargar los datos: ${error.message}")
-                setIsLoading(false)
-            }
-        })
+    LaunchedEffect(key1 = userId) {
+        userViewModel.loadUserData(userId, UserRole.Particular)
     }
 
-    when {
-        isLoading -> CircularProgressIndicator()
-        error != null -> Text(error, style = MaterialTheme.typography.bodyLarge)
-        particular != null -> {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text("Bienvenido, ${particular.nombre}", style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.height(8.dp))
-                Text("Tus ofertas publicadas:", style = MaterialTheme.typography.bodyLarge)
-                Spacer(Modifier.height(8.dp))
-                ListaOfertas(particular.historialOfertas)
+    val particularState = userViewModel.particularData.collectAsState()
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Perfil Particular") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Filled.ArrowBack, "Regresar")
+                    }
+                }
+            )
+        }
+    ) {
+        when (val currentState = particularState.value) {
+            is DataState.Loading -> CircularProgressIndicator()
+            is DataState.Success -> {
+                currentState.data?.let { MainContentParticular(it) } ?: Text("No se encontraron datos del usuario.", style = MaterialTheme.typography.bodyLarge)
             }
+            is DataState.Error -> {
+                Text(currentState.exception.message ?: "Error desconocido", style = MaterialTheme.typography.bodyLarge)
+            }
+        }
+    }
+}
+
+@Composable
+fun MainContentParticular(particular: Particular) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text("Bienvenido, ${particular.nombre}", style = MaterialTheme.typography.titleMedium)
+        Spacer(Modifier.height(8.dp))
+        Text("Tus ofertas publicadas:", style = MaterialTheme.typography.bodyLarge)
+        Spacer(Modifier.height(8.dp))
+        if (particular.historialOfertas.isNotEmpty()) {
+            ListaOfertas(particular.historialOfertas)
+        } else {
+            Text("No hay ofertas publicadas.", style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

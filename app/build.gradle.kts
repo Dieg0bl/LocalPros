@@ -85,4 +85,6 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
     implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("io.coil-kt:coil-compose:2.1.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+
 }

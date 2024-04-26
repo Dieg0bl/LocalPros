@@ -8,6 +8,11 @@ import com.example.localpros.ui.view.LoginScreen
 import com.example.localpros.ui.view.RegisterScreen
 import com.example.localpros.ui.view.ResetPasswordScreen
 import com.example.localpros.ui.viewModel.UserViewModel
+import com.example.localpros.ui.view.MainScreenParticular
+import com.example.localpros.ui.view.MainScreenProfesional
+import com.example.localpros.ui.view.RoleSelectionScreen
+
+
 
 @Composable
 fun AppNavigation(navController: NavHostController, userPreferences: UserPreferences, userViewModel: UserViewModel) {
@@ -34,14 +39,11 @@ fun AppNavigation(navController: NavHostController, userPreferences: UserPrefere
         }
 
         composable(AppScreens.MainParticularScreen.route) {
-            val userId = userPreferences.userId
-            MainScreenParticular(userId = userId)
+            MainScreenParticular(userId = userPreferences.userId, navController = navController, userViewModel = userViewModel)
         }
 
         composable(AppScreens.MainProfesionalScreen.route) {
-            val userId = userPreferences.userId
-            MainScreenProfesional(userId = userId)
+            MainScreenProfesional(userId = userPreferences.userId, navController = navController, userViewModel = userViewModel)
         }
-
     }
 }
