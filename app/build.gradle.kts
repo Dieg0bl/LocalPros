@@ -72,6 +72,8 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:protolite-well-known-types:18.0.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.material:material:1.12.0")
     kapt("com.google.dagger:hilt-android-compiler:2.51")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -86,5 +88,8 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("io.coil-kt:coil-compose:2.1.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
-
+    implementation ("com.google.maps.android:maps-compose:1.0.0")
+    implementation ("com.google.android.gms:play-services-maps:17.0.1")
+    implementation ("com.google.android.gms:play-services-location:18.0.0")
+    implementation ("com.google.maps:google-maps-services:0.18.0")
 }
