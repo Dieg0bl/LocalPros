@@ -1,6 +1,5 @@
 package com.example.localpros
 
-import AppNavigation
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,6 +16,7 @@ import com.example.localpros.ui.theme.LocalProsTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.example.localpros.data.model.UserPreferences
 import com.example.localpros.data.model.UserRole
+import com.example.localpros.ui.navigation.AppNavigation
 import com.example.localpros.ui.viewModel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -43,10 +43,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     if (shouldKeepSignedIn && firebaseAuth.currentUser != null) {
-                        val startDestination = when (UserRole.valueOf(userPreferences.userRole)) {
-                            UserRole.Particular -> AppScreens.MainParticularScreen.route
-                            UserRole.Profesional -> AppScreens.MainProfesionalScreen.route
-                        }
+                        val startDestination = AppScreens.MainUserScreen.createRoute(UserRole.valueOf(userPreferences.userRole))
                         navController.navigate(startDestination) {
                             popUpTo(0) { inclusive = true }
                         }

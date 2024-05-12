@@ -92,4 +92,6 @@ dependencies {
     implementation ("com.google.android.gms:play-services-maps:17.0.1")
     implementation ("com.google.android.gms:play-services-location:18.0.0")
     implementation ("com.google.maps:google-maps-services:0.18.0")
+    implementation ("androidx.activity:activity-compose:1.4.0")
+    implementation ("com.google.android.material:material:1.5.0")
 }

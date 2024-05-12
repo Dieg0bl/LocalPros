@@ -3,6 +3,7 @@ package com.example.localpros.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.localpros.data.repository.UserRepository
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
@@ -27,6 +28,16 @@ object PreferencesModule {
     @Singleton
     fun provideSharedPreferences(app: Application): SharedPreferences {
         return app.getSharedPreferences("LocalProsPrefs", Context.MODE_PRIVATE)
+    }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object UserRepositoryModule {
+    @Provides
+    @Singleton
+    fun provideUserRepository(firebaseDatabase: FirebaseDatabase): UserRepository {
+        return UserRepository(firebaseDatabase)
     }
 }
 

@@ -5,12 +5,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-
 @Composable
 fun <T> CustomLazyColumn(
     items: List<T>,
-    itemContent: @Composable (T) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    itemContent: @Composable (T) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
         items(items) { item ->

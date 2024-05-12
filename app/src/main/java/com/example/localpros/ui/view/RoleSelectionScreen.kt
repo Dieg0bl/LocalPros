@@ -20,7 +20,9 @@ fun RoleSelectionScreen(navController: NavController) {
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Button(
-            onClick = { navController.navigate(AppScreens.MainParticularScreen.route) },
+            onClick = {
+                navController.navigate("${AppScreens.MainUserScreen.route}/Particular")
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -34,7 +36,9 @@ fun RoleSelectionScreen(navController: NavController) {
         }
 
         Button(
-            onClick = { navController.navigate(AppScreens.MainProfesionalScreen.route) },
+            onClick = {
+                navController.navigate("${AppScreens.MainUserScreen.route}/Profesional")
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
