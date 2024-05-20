@@ -1,6 +1,7 @@
 package com.example.localpros.ui.view.composables
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,7 +20,8 @@ fun ProgressBar(
         if (label != null) Text(label)
         LinearProgressIndicator(
             progress = progress,
-            color = color
+            color = color,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }

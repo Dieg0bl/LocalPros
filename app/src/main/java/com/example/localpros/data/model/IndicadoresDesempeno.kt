@@ -1,11 +1,11 @@
 package com.example.localpros.data.model
 
 data class IndicadoresDesempeno(
-    val cumplimientoPrazos: Double,
-    val ajustePresupuesto: Double,
-    val calidadMateriales: Double,
-    val calidadProcedimientos: Double,
-    val cumplimientoSeguridad: Double,
-    val fiabilidadCompromiso: Double,
-    val transparenciaEticaComunicacion: Double
+    val cumplimientoPrazos: Double = 0.0,
+    val ajustePresupuesto: Double = 0.0,
+    val calidadMateriales: Double = 0.0,
+    val calidadProcedimientos: Double = 0.0,
+    val cumplimientoSeguridad: Double = 0.0,
+    val fiabilidadCompromiso: Double = 0.0,
+    val transparenciaEticaComunicacion: Double = 0.0
 )

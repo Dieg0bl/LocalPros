@@ -1,11 +1,13 @@
 package com.example.localpros.data.model
 
 data class Profesional(
-    override val id: String,
-    override val nombre: String,
-    override val contacto: String,
-    override val fotoPerfil: String,
-    val historialCandidaturas: List<Candidatura>,
-    val reseñasRecibidas: List<Resena>,
-    val indicadoresDesempeno: IndicadoresDesempeno
-) : User(id, nombre, contacto, fotoPerfil)
+    override val usuarioId: String = "",
+    override val nombre: String = "",
+    override val contacto: String = "",
+    override val fotoPerfil: String = "",
+    override val rol: String = "Profesional",
+    val cif: String = "",
+    val disponibilidadTemporal: Map<String, Disponibilidad> = mapOf(),
+    val historialCandidaturas: Map<String, Boolean> = mapOf(),
+    val indicadoresDesempeno: IndicadoresDesempeno = IndicadoresDesempeno()
+) : Usuario(usuarioId, nombre, contacto, fotoPerfil, rol)

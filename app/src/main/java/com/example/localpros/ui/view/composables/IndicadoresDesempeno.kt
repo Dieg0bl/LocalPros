@@ -21,37 +21,37 @@ fun IndicadoresDesempenoSection(indicadoresDesempeno: IndicadoresDesempeno) {
 
         ProgressBarWithLabel(
             label = "Cumplimiento de Prazos",
-            progress = indicadoresDesempeno.cumplimientoPrazos / 100
+            progress = indicadoresDesempeno.cumplimientoPrazos / 100.0
         )
 
         ProgressBarWithLabel(
             label = "Ajuste al Presupuesto",
-            progress = indicadoresDesempeno.ajustePresupuesto / 100
+            progress = indicadoresDesempeno.ajustePresupuesto / 100.0
         )
 
         ProgressBarWithLabel(
             label = "Calidad de Materiales",
-            progress = indicadoresDesempeno.calidadMateriales / 100
+            progress = indicadoresDesempeno.calidadMateriales / 100.0
         )
 
         ProgressBarWithLabel(
             label = "Calidad de Procedimientos",
-            progress = indicadoresDesempeno.calidadProcedimientos / 100
+            progress = indicadoresDesempeno.calidadProcedimientos / 100.0
         )
 
         ProgressBarWithLabel(
             label = "Cumplimiento de Seguridad",
-            progress = indicadoresDesempeno.cumplimientoSeguridad / 100
+            progress = indicadoresDesempeno.cumplimientoSeguridad / 100.0
         )
 
         ProgressBarWithLabel(
             label = "Fiabilidad y Compromiso",
-            progress = indicadoresDesempeno.fiabilidadCompromiso / 100
+            progress = indicadoresDesempeno.fiabilidadCompromiso / 100.0
         )
 
         ProgressBarWithLabel(
             label = "Transparencia, Ética y Comunicación",
-            progress = indicadoresDesempeno.transparenciaEticaComunicacion / 100
+            progress = indicadoresDesempeno.transparenciaEticaComunicacion / 100.0
         )
     }
 }
@@ -64,7 +64,7 @@ fun ProgressBarWithLabel(label: String, progress: Double) {
             progress = progress.toFloat(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp)
+                .padding(vertical = 4.dp),
         )
     }
 }

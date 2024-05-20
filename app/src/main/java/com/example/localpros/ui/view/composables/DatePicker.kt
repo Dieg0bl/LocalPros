@@ -1,15 +1,13 @@
 package com.example.localpros.ui.view.composables
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.ButtonDefaults
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
+import org.threeten.bp.Instant
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -18,7 +16,6 @@ import android.content.Context
 import android.content.ContextWrapper
 import androidx.fragment.app.FragmentActivity
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DatePicker(
     selectedDate: LocalDate,
@@ -52,20 +49,16 @@ fun DatePicker(
     Button(
         onClick = { showDatePicker = true },
         modifier = modifier,
-        colors = ButtonDefaults.buttonColors()
+        colors = ButtonDefaults.buttonColors(containerColor = androidx.compose.material3.MaterialTheme.colorScheme.primary)
     ) {
-        Text("Seleccionar Fecha: $dateString")
+        Text(text = "Seleccionar fecha: $dateString")
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun showMaterialDatePicker(
-    context: Context,
-    selectedDate: LocalDate,
-    onDateChange: (LocalDate) -> Unit
-) {
+private fun showMaterialDatePicker(context: Context, selectedDate: LocalDate, onDateChange: (LocalDate) -> Unit) {
+    val activity = context.findActivity() ?: return
+
     val datePicker = MaterialDatePicker.Builder.datePicker()
-        .setTitleText("Seleccionar fecha")
         .setSelection(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli())
         .build()
 
@@ -74,18 +67,14 @@ fun showMaterialDatePicker(
         onDateChange(newDate)
     }
 
-    val fragmentManager = context.findFragmentActivity()?.supportFragmentManager
-    if (fragmentManager != null) {
-        datePicker.show(fragmentManager, "date_picker")
-    }
+    datePicker.show(activity.supportFragmentManager, "DATE_PICKER")
 }
-fun Context.findFragmentActivity(): FragmentActivity? {
-    var currentContext = this
-    while (currentContext is ContextWrapper) {
-        if (currentContext is FragmentActivity) {
-            return currentContext
-        }
-        currentContext = currentContext.baseContext
+
+private fun Context.findActivity(): FragmentActivity? {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is FragmentActivity) return context
+        context = context.baseContext
     }
     return null
 }

@@ -1,24 +1,24 @@
+// AppNavigation.kt
 package com.example.localpros.ui.navigation
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.localpros.data.model.UserPreferences
-import com.example.localpros.ui.view.*
-import com.example.localpros.ui.viewModel.UserViewModel
 import com.example.localpros.data.model.UserRole
-import com.example.localpros.ui.view.RoleSelectionScreen
-
+import com.example.localpros.ui.view.*
+import com.example.localpros.ui.viewModel.AuthViewModel
+import com.example.localpros.ui.viewModel.UserViewModel
 
 @Composable
-fun AppNavigation(navController: NavHostController, userPreferences: UserPreferences, userViewModel: UserViewModel) {
+fun AppNavigation(navController: NavHostController, userPreferences: UserPreferences, authViewModel: AuthViewModel, userViewModel: UserViewModel) {
     NavHost(navController = navController, startDestination = AppScreens.LoginScreen.route) {
         composable(AppScreens.LoginScreen.route) {
-            LoginScreen(navController = navController, userPreferences = userPreferences) {
+            LoginScreen(navController = navController, userPreferences = userPreferences, authViewModel = authViewModel, onLoginSuccess = {
                 navController.navigate(AppScreens.RoleSelectionScreen.route)
-            }
+            })
         }
 
         composable(AppScreens.RegisterScreen.route) {
@@ -47,6 +47,8 @@ fun AppNavigation(navController: NavHostController, userPreferences: UserPrefere
                     userViewModel = userViewModel,
                     userRole = userRole
                 )
+            } else {
+                // Handle the error case appropriately
             }
         }
     }

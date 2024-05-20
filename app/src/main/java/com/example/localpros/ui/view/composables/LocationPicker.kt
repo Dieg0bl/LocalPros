@@ -5,27 +5,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.CameraPosition
-import com.google.maps.android.compose.*
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.GeoApiContext
 import com.google.maps.GeocodingApi
 import com.google.maps.model.GeocodingResult
+import com.google.maps.android.compose.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LocationPicker(
-    initialLocation: com.google.android.gms.maps.model.LatLng,
-    onLocationSelected: (com.google.android.gms.maps.model.LatLng) -> Unit,
+    initialLocation: LatLng,
+    onLocationSelected: (LatLng) -> Unit,
     modifier: Modifier = Modifier,
     showSearchBar: Boolean = true,
     geoApiContext: GeoApiContext
@@ -33,7 +29,7 @@ fun LocationPicker(
     var searchText by remember { mutableStateOf("") }
     var triggerSearch by remember { mutableStateOf(false) }
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition(initialLocation, 14f, 0f, 0f)
+        position = CameraPosition.fromLatLngZoom(initialLocation, 14f)
     }
 
     Column(modifier = modifier) {
@@ -47,7 +43,10 @@ fun LocationPicker(
                 label = { Text("Buscar ubicación") },
                 singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent
+                    textColor = Color.Black,
+                    cursorColor = Color.Black,
+                    focusedIndicatorColor = Color.Blue,
+                    unfocusedIndicatorColor = Color.Gray
                 ),
                 trailingIcon = {
                     IconButton(onClick = { triggerSearch = !triggerSearch }) {
@@ -57,33 +56,34 @@ fun LocationPicker(
             )
         }
 
-        // Monitor changes in triggerSearch to perform the search
         LaunchedEffect(triggerSearch, searchText) {
             if (searchText.isNotBlank()) {
                 val newLocation = searchLocation(searchText, geoApiContext)
                 newLocation?.let {
-                    cameraPositionState.position = CameraPosition(it, 14f, 0f, 0f)
+                    cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 14f)
                     onLocationSelected(it)
                 }
             }
         }
 
         GoogleMap(
-            modifier = Modifier.weight(1f).fillMaxWidth(),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
             cameraPositionState = cameraPositionState,
             onMapClick = { latLng ->
                 onLocationSelected(latLng)
-                cameraPositionState.position = CameraPosition(latLng, 14f, 0f, 0f)
+                cameraPositionState.position = CameraPosition.fromLatLngZoom(latLng, 14f)
             }
         )
     }
 }
 
-suspend fun searchLocation(query: String, context: GeoApiContext): com.google.android.gms.maps.model.LatLng? {
+suspend fun searchLocation(query: String, context: GeoApiContext): LatLng? {
     return try {
         val results: Array<GeocodingResult> = GeocodingApi.geocode(context, query).await()
         if (results.isNotEmpty()) {
-            com.google.android.gms.maps.model.LatLng(
+            LatLng(
                 results[0].geometry.location.lat,
                 results[0].geometry.location.lng
             )
