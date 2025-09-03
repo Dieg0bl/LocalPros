@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "274205406266",
-    "firebase_url": "https://localpros-91ffa-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "localpros-91ffa",
-    "storage_bucket": "localpros-91ffa.appspot.com"
+    "project_number": "YOUR_PROJECT_NUMBER",
+    "firebase_url": "https://your-project-id-default-rtdb.region.firebasedatabase.app",
+    "project_id": "your-project-id",
+    "storage_bucket": "your-project-id.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:274205406266:android:2e6ada2ab3f46a36877103",
+        "mobilesdk_app_id": "1:YOUR_PROJECT_NUMBER:android:YOUR_APP_ID",
         "android_client_info": {
           "package_name": "com.example.localpros"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDwzGYWeIYd5J9JHfXNTWpZxESVbub4hZI"
+          "current_key": "YOUR_FIREBASE_API_KEY"
         }
       ],
       "services": {

@@ -31,10 +31,15 @@ LocalPros is an Android application built with Kotlin and Jetpack Compose that c
 
 1. Clone the repository
 2. Open the project in Android Studio
-3. Replace `YOUR_GOOGLE_MAPS_API_KEY_HERE` in both:
+3. **Configure Google Maps API Key**: Replace `YOUR_GOOGLE_MAPS_API_KEY_HERE` in both:
    - `app/build.gradle.kts`
    - `app/src/main/AndroidManifest.xml`
-4. Set up Firebase configuration by adding your `google-services.json` file
+4. **Configure Firebase**: Update `app/google-services.json` with your Firebase project configuration:
+   - Replace `YOUR_PROJECT_NUMBER` with your Firebase project number
+   - Replace `your-project-id` with your Firebase project ID
+   - Replace `YOUR_APP_ID` with your Android app ID
+   - Replace `YOUR_FIREBASE_API_KEY` with your Firebase API key
+   - Update the Firebase URL and storage bucket accordingly
 5. Build and run the project
 
 ## Version Information
@@ -57,6 +62,8 @@ The app follows modern Android development practices:
 ## Repository Status
 
 This repository is prepared for public archival as of version 0.6. This represents a stable delivery version of the LocalPros application.
+
+**Note**: All API keys and sensitive configuration values have been replaced with placeholders for security. You will need to configure your own API keys and Firebase project settings to run the application.
 
 ---
 
